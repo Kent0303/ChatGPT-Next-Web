@@ -9,7 +9,7 @@ const cn = {
     ChatItemCount: (count: number) => `${count} 条对话`,
   },
   Chat: {
-    SubTitle: (count: number) => `与 ChatGPT 的 ${count} 条对话`,
+    SubTitle: (count: number) => `${count} 条对话`,
     Actions: {
       ChatList: "查看消息列表",
       CompressedHistory: "查看压缩后的历史 Prompt",
@@ -21,11 +21,12 @@ const cn = {
     Rename: "重命名对话",
     Typing: "正在输入…",
     Input: (submitKey: string) => {
-      var inputHints = `${submitKey} 发送`;
-      if (submitKey === String(SubmitKey.Enter)) {
-        inputHints += "，Shift + Enter 换行";
-      }
-      return inputHints + "，/ 触发补全";
+      return "输入消息";
+      // var inputHints = `${submitKey} 发送`;
+      // if (submitKey === String(SubmitKey.Enter)) {
+      //   inputHints += "，Shift + Enter 换行";
+      // }
+      // return inputHints + "，/ 触发补全";
     },
     Send: "发送",
   },
@@ -45,7 +46,7 @@ const cn = {
     ResetConfirm: "重置后将清空当前对话记录以及历史记忆，确认重置？",
   },
   Home: {
-    NewChat: "新的聊天",
+    NewChat: "新话题",
     DeleteChat: "确认删除选中的对话？",
     DeleteToast: "已删除会话",
     Revert: "撤销",

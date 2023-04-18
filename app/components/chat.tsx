@@ -1,14 +1,15 @@
 import { useDebounce, useDebouncedCallback } from "use-debounce";
 import { memo, useState, useRef, useEffect, useLayoutEffect } from "react";
+import Image from "next/image";
 
 import SendWhiteIcon from "../icons/send-white.svg";
 import BrainIcon from "../icons/brain.svg";
-import ExportIcon from "../icons/share.svg";
-import ReturnIcon from "../icons/return.svg";
+import ExportIcon from "../icons/custom-copy.svg";
+import ReturnIcon from "../icons/custom-theme.svg";
 import CopyIcon from "../icons/copy.svg";
 import DownloadIcon from "../icons/download.svg";
 import LoadingIcon from "../icons/three-dots.svg";
-import BotIcon from "../icons/bot.svg";
+import BotIcon from "../icons/qc-coach.svg";
 import AddIcon from "../icons/add.svg";
 import DeleteIcon from "../icons/delete.svg";
 import MaxIcon from "../icons/max.svg";
@@ -45,6 +46,7 @@ import dynamic from "next/dynamic";
 import { ControllerPool } from "../requests";
 import { Prompt, usePromptStore } from "../store/prompt";
 import Locale from "../locales";
+import { config as customConfig } from "../config/custom";
 
 import { IconButton } from "./button";
 import styles from "./home.module.scss";
@@ -68,15 +70,27 @@ export function Avatar(props: { role: Message["role"] }) {
 
   if (props.role !== "user") {
     return (
-      <div className="no-dark">
-        <BotIcon className={styles["user-avtar"]} />
+      <div className={styles["user-avatar-wrap"]}>
+        <div className="no-dark">
+          <Image
+            src="https://img.qingchengfit.cn/73034393d7b18f7d0e49a1e334aad4e3.png"
+            alt="头像"
+            className={styles["user-avatar"]}
+            width={32}
+            height={32}
+          ></Image>
+        </div>
+        <div className={styles["username"]}>{customConfig.assistName}</div>
       </div>
     );
   }
 
   return (
-    <div className={styles["user-avtar"]}>
-      <Emoji unified={config.avatar} size={18} getEmojiUrl={getEmojiUrl} />
+    <div className={styles["user-avatar-wrap"]}>
+      <div className={styles["username"]}>{customConfig.assistName}</div>
+      <div className={styles["user-avatar"]}>
+        <Emoji unified={config.avatar} size={18} getEmojiUrl={getEmojiUrl} />
+      </div>
     </div>
   );
 }
@@ -278,7 +292,6 @@ function PromptToast(props: {
 function useSubmitHandler() {
   const config = useChatStore((state) => state.config);
   const submitKey = config.submitKey;
-
   const shouldSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key !== "Enter") return false;
     if (e.key === "Enter" && e.nativeEvent.isComposing) return false;
@@ -552,8 +565,15 @@ export function Chat(props: {
   };
 
   const config = useChatStore((state) => state.config);
+  const {
+    hideChatActions,
+    hidePromptHints,
+    hidePromptToast,
+    hidePromptBtn,
+    helloContent,
+  } = customConfig;
 
-  const context: RenderMessage[] = session.context.slice();
+  const context: RenderMessage[] = session.context.slice(2); // 移除前两项预制内容
 
   const accessStore = useAccessStore();
 
@@ -562,9 +582,12 @@ export function Chat(props: {
     session.messages.at(0)?.content !== BOT_HELLO.content
   ) {
     const copiedHello = Object.assign({}, BOT_HELLO);
-    if (!accessStore.isAuthorized()) {
-      copiedHello.content = Locale.Error.Unauthorized;
-    }
+    // if (!accessStore.isAuthorized()) {
+    //   copiedHello.content = Locale.Error.Unauthorized;
+    // }
+
+    copiedHello.content = helloContent; // 替换下欢迎语
+
     context.push(copiedHello);
   }
 
@@ -629,36 +652,40 @@ export function Chat(props: {
           </div>
         </div>
         <div className={styles["window-actions"]}>
-          <div className={styles["window-action-button"] + " " + styles.mobile}>
-            <IconButton
-              icon={<ReturnIcon />}
-              bordered
-              title={Locale.Chat.Actions.ChatList}
-              onClick={props?.showSideBar}
-            />
+          <div
+            className={styles["custom-action-button"]}
+            onClick={props?.showSideBar}
+          >
+            <div className={styles["custom-action-button-wrap"]}>
+              <ReturnIcon />
+            </div>
+            <div className={styles["custom-action-button-txt"]}>话题</div>
           </div>
-          <div className={styles["window-action-button"]}>
-            <IconButton
-              icon={<BrainIcon />}
-              bordered
-              title={Locale.Chat.Actions.CompressedHistory}
-              onClick={() => {
-                setShowPromptModal(true);
-              }}
-            />
-          </div>
-          <div className={styles["window-action-button"]}>
-            <IconButton
-              icon={<ExportIcon />}
-              bordered
-              title={Locale.Chat.Actions.Export}
-              onClick={() => {
-                exportMessages(
-                  session.messages.filter((msg) => !msg.isError),
-                  session.topic,
-                );
-              }}
-            />
+          {!hidePromptBtn && (
+            <div className={styles["window-action-button"]}>
+              <IconButton
+                icon={<BrainIcon />}
+                bordered
+                title={Locale.Chat.Actions.CompressedHistory}
+                onClick={() => {
+                  setShowPromptModal(true);
+                }}
+              />
+            </div>
+          )}
+          <div
+            className={styles["custom-action-button"]}
+            onClick={() => {
+              exportMessages(
+                session.messages.filter((msg) => !msg.isError),
+                session.topic,
+              );
+            }}
+          >
+            <div className={styles["custom-action-button-wrap"]}>
+              <ExportIcon />
+            </div>
+            <div className={styles["custom-action-button-txt"]}>复制</div>
           </div>
           {!isMobileScreen() && (
             <div className={styles["window-action-button"]}>
@@ -675,11 +702,13 @@ export function Chat(props: {
           )}
         </div>
 
-        <PromptToast
-          showToast={!hitBottom}
-          showModal={showPromptModal}
-          setShowModal={setShowPromptModal}
-        />
+        {!hidePromptToast && (
+          <PromptToast
+            showToast={!hitBottom}
+            showModal={showPromptModal}
+            setShowModal={setShowPromptModal}
+          />
+        )}
       </div>
 
       <div
@@ -768,13 +797,17 @@ export function Chat(props: {
       </div>
 
       <div className={styles["chat-input-panel"]}>
-        <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
+        {!hidePromptHints && (
+          <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
+        )}
 
-        <ChatActions
-          showPromptModal={() => setShowPromptModal(true)}
-          scrollToBottom={scrollToBottom}
-          hitBottom={hitBottom}
-        />
+        {!hideChatActions && (
+          <ChatActions
+            showPromptModal={() => setShowPromptModal(true)}
+            scrollToBottom={scrollToBottom}
+            hitBottom={hitBottom}
+          />
+        )}
         <div className={styles["chat-input-panel-inner"]}>
           <textarea
             ref={inputRef}

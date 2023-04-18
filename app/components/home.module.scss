@@ -284,7 +284,18 @@
   margin-top: 5px;
 }
 
-.user-avtar {
+.user-avatar-wrap{
+  display: flex;
+  align-items: center;
+
+  .username {
+    padding: 0 5px;
+    color: var(--color-fg-default);
+    font-size: 14px;
+  }
+}
+
+.user-avatar {
   height: 30px;
   width: 30px;
   display: flex;
@@ -445,7 +456,7 @@
 }
 
 .chat-input-send {
-  background-color: var(--primary);
+  background-color: var(--custom-btn);
   color: white;
 
   position: absolute;

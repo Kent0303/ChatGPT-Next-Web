@@ -12,6 +12,8 @@ import { isMobileScreen, trimTopic } from "../utils";
 import Locale from "../locales";
 import { showToast } from "../components/ui-lib";
 
+import { config } from "../config/custom";
+
 export type Message = ChatCompletionResponseMessage & {
   date: string;
   streaming?: boolean;
@@ -136,7 +138,7 @@ const DEFAULT_CONFIG: ChatConfig = {
   historyMessageCount: 4,
   compressMessageLengthThreshold: 1000,
   sendBotMessages: true as boolean,
-  submitKey: SubmitKey.CtrlEnter as SubmitKey,
+  submitKey: SubmitKey.Enter as SubmitKey,
   avatar: "1f603",
   fontSize: 14,
   theme: Theme.Auto as Theme,
@@ -186,7 +188,7 @@ function createEmptySession(): ChatSession {
     topic: DEFAULT_TOPIC,
     sendMemory: true,
     memoryPrompt: "",
-    context: [],
+    context: [...config.context],
     messages: [],
     stat: {
       tokenCount: 0,

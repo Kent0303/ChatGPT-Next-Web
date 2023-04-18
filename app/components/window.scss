@@ -35,3 +35,32 @@
 .window-action-button {
   margin-left: 10px;
 }
+
+.custom-action-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  box-sizing: border-box;
+  margin-left: 10px;
+  border-radius: 4px;
+  padding: 5px 0;
+  width: 53px;
+  height: 53px;
+  border: 1px solid #DEDEDE;
+  background-color: var(--white);
+  &:active{
+    opacity: .5;
+  }
+  .custom-action-button-wrap{
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+  }
+  .custom-action-button-txt{
+    line-height: 14px;
+    font-size: 10px;
+    color: #000;
+  }
+}

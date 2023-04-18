@@ -4,6 +4,9 @@ const nextConfig = {
   experimental: {
     appDir: true,
   },
+  images: {
+    domains: ['img.qingchengfit.cn']
+  },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,

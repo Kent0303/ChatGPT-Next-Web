@@ -9,14 +9,14 @@ import styles from "./home.module.scss";
 
 import SettingsIcon from "../icons/settings.svg";
 import GithubIcon from "../icons/github.svg";
-import ChatGptIcon from "../icons/chatgpt.svg";
+import ChatGptIcon from "../icons/qc-coach.svg";
 
-import BotIcon from "../icons/bot.svg";
+import BotIcon from "../icons/qc-coach.svg";
 import AddIcon from "../icons/add.svg";
 import LoadingIcon from "../icons/three-dots.svg";
 import CloseIcon from "../icons/close.svg";
 
-import { useChatStore } from "../store";
+import { useChatStore, Message } from "../store";
 import { getCSSVar, isMobileScreen } from "../utils";
 import Locale from "../locales";
 import { Chat } from "./chat";
@@ -24,6 +24,7 @@ import { Chat } from "./chat";
 import dynamic from "next/dynamic";
 import { REPO_URL } from "../constant";
 import { ErrorBoundary } from "./error";
+import { config as customConfig } from "../config/custom";
 
 export function Loading(props: { noLogo?: boolean }) {
   return (
@@ -142,6 +143,20 @@ function _Home() {
   const loading = !useHasHydrated();
   const [showSideBar, setShowSideBar] = useState(true);
 
+  const { hideSettingBtn, hideRepoBtn, assistName, assistDesc } = customConfig;
+
+  // const DEFAULT_SYSTEM_PROMPT:Message = {
+  //   role: "system",
+  //   content: "你是一个健身行业的辅助工具，请基于健身行业的只是作答，如果提问并不是健身行业相关的，请回答'请您重新提问'",
+  //   date: "",
+  // }
+
+  // const addContextPrompt = (prompt: Message) => {
+  //   chatStore.updateCurrentSession((session) => {
+  //     session.context.push(prompt);
+  //   });
+  // };
+
   // setting
   const [openSettings, setOpenSettings] = useState(false);
   const config = useChatStore((state) => state.config);
@@ -167,10 +182,8 @@ function _Home() {
         className={styles.sidebar + ` ${showSideBar && styles["sidebar-show"]}`}
       >
         <div className={styles["sidebar-header"]}>
-          <div className={styles["sidebar-title"]}>ChatGPT Next</div>
-          <div className={styles["sidebar-sub-title"]}>
-            Build your own AI assistant.
-          </div>
+          <div className={styles["sidebar-title"]}>{assistName}</div>
+          <div className={styles["sidebar-sub-title"]}>{assistDesc}</div>
           <div className={styles["sidebar-logo"]}>
             <ChatGptIcon />
           </div>
@@ -195,19 +208,23 @@ function _Home() {
               />
             </div>
             <div className={styles["sidebar-action"]}>
-              <IconButton
-                icon={<SettingsIcon />}
-                onClick={() => {
-                  setOpenSettings(true);
-                  setShowSideBar(false);
-                }}
-                shadow
-              />
+              {!hideSettingBtn && (
+                <IconButton
+                  icon={<SettingsIcon />}
+                  onClick={() => {
+                    setOpenSettings(true);
+                    setShowSideBar(false);
+                  }}
+                  shadow
+                />
+              )}
             </div>
             <div className={styles["sidebar-action"]}>
-              <a href={REPO_URL} target="_blank">
-                <IconButton icon={<GithubIcon />} shadow />
-              </a>
+              {!hideRepoBtn && (
+                <a href={REPO_URL} target="_blank">
+                  <IconButton icon={<GithubIcon />} shadow />
+                </a>
+              )}
             </div>
           </div>
           <div>
@@ -216,6 +233,7 @@ function _Home() {
               text={Locale.Home.NewChat}
               onClick={() => {
                 createNewSession();
+                // addContextPrompt(DEFAULT_SYSTEM_PROMPT);
                 setShowSideBar(false);
               }}
               shadow

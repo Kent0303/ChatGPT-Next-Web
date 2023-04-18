@@ -6,7 +6,7 @@
   --black: rgb(48, 48, 48);
   --gray: rgb(250, 250, 250);
   --primary: rgb(29, 147, 171);
-  --second: rgb(231, 248, 255);
+  --second: #5BCAD4;
   --hover-color: #f3f3f3;
   --bar-color: rgba(0, 0, 0, 0.1);
   --theme-color: var(--gray);
@@ -17,6 +17,8 @@
 
   /* stroke */
   --border-in-light: 1px solid rgb(222, 222, 222);
+
+  --custom-btn: var(--second)
 }
 
 @mixin dark {
@@ -35,6 +37,8 @@
   --border-in-light: 1px solid rgba(255, 255, 255, 0.192);
 
   --theme-color: var(--gray);
+
+  --custom-btn: var(--primary);
 
   div:not(.no-dark) > svg {
     filter: invert(0.5);
