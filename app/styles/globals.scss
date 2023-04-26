@@ -18,7 +18,8 @@
   /* stroke */
   --border-in-light: 1px solid rgb(222, 222, 222);
 
-  --custom-btn: var(--second)
+  --custom-btn: var(--second);
+  --custom-btn-txt: #000;
 }
 
 @mixin dark {
@@ -39,6 +40,8 @@
   --theme-color: var(--gray);
 
   --custom-btn: var(--primary);
+
+  --custom-btn-txt: #808080;
 
   div:not(.no-dark) > svg {
     filter: invert(0.5);

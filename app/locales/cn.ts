@@ -1,4 +1,7 @@
 import { SubmitKey } from "../store/app";
+import { getEnv } from "../utils";
+
+const env = getEnv();
 
 const cn = {
   WIP: "该功能仍在开发中……",
@@ -31,11 +34,13 @@ const cn = {
     Send: "发送",
   },
   Export: {
-    Title: "导出聊天记录为 Markdown",
+    Title: "聊天记录",
     Copy: "全部复制",
     Download: "下载文件",
     MessageFromYou: "来自你的消息",
-    MessageFromChatGPT: "来自 ChatGPT 的消息",
+    MessageFromChatGPT: env.isStaff
+      ? "来自 青橙AI管理顾问 的消息"
+      : "来自 青橙AI教练助手 的消息",
   },
   Memory: {
     Title: "历史记忆",

@@ -73,7 +73,7 @@ export function Avatar(props: { role: Message["role"] }) {
       <div className={styles["user-avatar-wrap"]}>
         <div className="no-dark">
           <Image
-            src="https://img.qingchengfit.cn/73034393d7b18f7d0e49a1e334aad4e3.png"
+            src="https://img.qingchengfit.cn/806c706c5759651fa39831759ab2dc2c.png"
             alt="头像"
             className={styles["user-avatar"]}
             width={32}
@@ -87,9 +87,15 @@ export function Avatar(props: { role: Message["role"] }) {
 
   return (
     <div className={styles["user-avatar-wrap"]}>
-      <div className={styles["username"]}>{customConfig.assistName}</div>
-      <div className={styles["user-avatar"]}>
-        <Emoji unified={config.avatar} size={18} getEmojiUrl={getEmojiUrl} />
+      <div className={styles["username"]}>{customConfig.username}</div>
+      <div className="no-dark">
+        <Image
+          src={customConfig.avatarUrl}
+          alt="头像"
+          className={styles["user-avatar"]}
+          width={32}
+          height={32}
+        ></Image>
       </div>
     </div>
   );
@@ -122,13 +128,13 @@ function exportMessages(messages: Message[], topic: string) {
         text={Locale.Export.Copy}
         onClick={() => copyToClipboard(mdText)}
       />,
-      <IconButton
-        key="download"
-        icon={<DownloadIcon />}
-        bordered
-        text={Locale.Export.Download}
-        onClick={() => downloadAs(mdText, filename)}
-      />,
+      // <IconButton
+      //   key="download"
+      //   icon={<DownloadIcon />}
+      //   bordered
+      //   text={Locale.Export.Download}
+      //   onClick={() => downloadAs(mdText, filename)}
+      // />,
     ],
   });
 }

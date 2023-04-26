@@ -124,3 +124,17 @@ export function autoGrowTextArea(dom: HTMLTextAreaElement) {
 export function getCSSVar(varName: string) {
   return getComputedStyle(document.body).getPropertyValue(varName).trim();
 }
+
+export function getEnv() {
+  const staffAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
+  const coachAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
+
+  const isStaff = staffAppReg.test(navigator.userAgent);
+  const isCoach = coachAppReg.test(navigator.userAgent);
+
+  return {
+    isInQcApp: isCoach || isStaff,
+    isCoach,
+    isStaff,
+  };
+}

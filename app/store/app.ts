@@ -14,6 +14,10 @@ import { showToast } from "../components/ui-lib";
 
 import { config } from "../config/custom";
 
+import { getEnv } from "../utils";
+
+const env = getEnv();
+
 export type Message = ChatCompletionResponseMessage & {
   date: string;
   streaming?: boolean;
@@ -141,7 +145,7 @@ const DEFAULT_CONFIG: ChatConfig = {
   submitKey: SubmitKey.Enter as SubmitKey,
   avatar: "1f603",
   fontSize: 14,
-  theme: Theme.Auto as Theme,
+  theme: env.isStaff ? Theme.Dark : (Theme.Auto as Theme),
   tightBorder: false,
   sendPreviewBubble: false,
   sidebarWidth: 300,
