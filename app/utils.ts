@@ -126,15 +126,23 @@ export function getCSSVar(varName: string) {
 }
 
 export function getEnv() {
-  const staffAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
-  const coachAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
+  if (typeof navigator !== "undefined") {
+    const staffAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
+    const coachAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
 
-  const isStaff = staffAppReg.test(navigator.userAgent);
-  const isCoach = coachAppReg.test(navigator.userAgent);
+    const isStaff = staffAppReg.test(navigator.userAgent);
+    const isCoach = coachAppReg.test(navigator.userAgent);
 
-  return {
-    isInQcApp: isCoach || isStaff,
-    isCoach,
-    isStaff,
-  };
+    return {
+      isInQcApp: isCoach || isStaff,
+      isCoach,
+      isStaff,
+    };
+  } else {
+    return {
+      isInQcApp: false,
+      isCoach: false,
+      isStaff: false,
+    };
+  }
 }

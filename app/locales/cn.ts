@@ -1,10 +1,7 @@
 import { SubmitKey } from "../store/app";
-// import { getEnv } from "../utils";
+import { getEnv } from "../utils";
 
-const env = {
-  isStaff: false,
-  isCoach: false,
-};
+const env = getEnv();
 
 const cn = {
   WIP: "该功能仍在开发中……",
