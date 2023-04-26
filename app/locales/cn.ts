@@ -1,7 +1,7 @@
 import { SubmitKey } from "../store/app";
-import { getEnv } from "../utils";
+// import { getEnv } from "../utils";
 
-const env = getEnv();
+const env = {};
 
 const cn = {
   WIP: "该功能仍在开发中……",
