@@ -41,6 +41,11 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700;900&display=swap"
           rel="stylesheet"
         ></link>
+        <script
+          type="text/javascript"
+          src="https://cloudfront.loggly.com/js/loggly.tracker-2.2.4.min.js"
+          async
+        ></script>
         <script src="/serviceWorkerRegister.js" defer></script>
       </head>
       <body>{children}</body>

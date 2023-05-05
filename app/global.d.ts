@@ -9,3 +9,7 @@ declare module "*.scss" {
 }
 
 declare module "*.svg";
+
+interface Window {
+  _LTracker: any;
+}

@@ -145,6 +145,19 @@ function _Home() {
 
   const { hideSettingBtn, hideRepoBtn, assistName, assistDesc } = customConfig;
 
+  if (typeof window !== "undefined") {
+    const _LTracker: any = window._LTracker || [];
+
+    if (process.env.LOGGLY_KEY) {
+      _LTracker.push({
+        logglyKey: process.env.LOGGLY_KEY,
+        sendConsoleErrors: false,
+        tag: "loggly-jslogger",
+        useUtfEncoding: true,
+      });
+    }
+  }
+
   // const DEFAULT_SYSTEM_PROMPT:Message = {
   //   role: "system",
   //   content: "你是一个健身行业的辅助工具，请基于健身行业的只是作答，如果提问并不是健身行业相关的，请回答'请您重新提问'",
