@@ -2,6 +2,10 @@ import type { ChatRequest, ChatResponse } from "./api/openai/typing";
 import { Message, ModelConfig, useAccessStore, useChatStore } from "./store";
 import { showToast } from "./components/ui-lib";
 
+import { getServerSideConfig } from "./config/server";
+
+const serverConfig = getServerSideConfig();
+
 const TIME_OUT_MS = 30000;
 
 const makeRequestParam = (
@@ -143,7 +147,7 @@ export async function requestChatStream(
       messages,
     };
 
-    if (process.env.LOGGLY_KEY) {
+    if (serverConfig.logglyKey) {
       _LTracker.push(data);
     }
   }
