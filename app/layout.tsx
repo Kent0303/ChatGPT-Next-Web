@@ -46,6 +46,13 @@ export default function RootLayout({
           src="https://cloudfront.loggly.com/js/loggly.tracker-2.2.4.min.js"
           async
         ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.LOGGLY_KEY = ${JSON.stringify(
+              process.env.LOGGLY_KEY,
+            )}`,
+          }}
+        />
         <script src="/serviceWorkerRegister.js" defer></script>
       </head>
       <body>{children}</body>

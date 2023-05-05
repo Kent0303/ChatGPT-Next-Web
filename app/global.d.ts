@@ -12,4 +12,5 @@ declare module "*.svg";
 
 interface Window {
   _LTracker: any;
+  LOGGLY_KEY: string;
 }

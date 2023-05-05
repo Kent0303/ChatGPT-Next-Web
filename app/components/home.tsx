@@ -26,10 +26,6 @@ import { REPO_URL } from "../constant";
 import { ErrorBoundary } from "./error";
 import { config as customConfig } from "../config/custom";
 
-import { getServerSideConfig } from "../config/server";
-
-const serverConfig = getServerSideConfig();
-
 export function Loading(props: { noLogo?: boolean }) {
   return (
     <div className={styles["loading-content"]}>
@@ -152,9 +148,9 @@ function _Home() {
   if (typeof window !== "undefined") {
     const _LTracker: any = window._LTracker || [];
 
-    if (serverConfig.logglyKey) {
+    if (window.LOGGLY_KEY) {
       _LTracker.push({
-        logglyKey: serverConfig.logglyKey,
+        logglyKey: window.LOGGLY_KEY,
         sendConsoleErrors: false,
         tag: "loggly-jslogger",
         useUtfEncoding: true,
