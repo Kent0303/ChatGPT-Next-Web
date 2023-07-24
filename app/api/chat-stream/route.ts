@@ -24,6 +24,7 @@ async function createStream(req: NextRequest) {
           const data = event.data;
           // https://beta.openai.com/docs/api-reference/completions/create#completions/create-stream
           if (data === "[DONE]") {
+            console.log("trigger [DONE]");
             controller.close();
             return;
           }
@@ -31,6 +32,9 @@ async function createStream(req: NextRequest) {
             const json = JSON.parse(data);
             console.log("[Stream] json ", json);
 
+            if (!json.choices) {
+              return;
+            }
             const text = json.choices[0].delta.content;
             const queue = encoder.encode(text);
             controller.enqueue(queue);
