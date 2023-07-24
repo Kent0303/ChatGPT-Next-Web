@@ -45,16 +45,16 @@ export const config: CustomConfig = {
   username,
   avatarUrl,
   context: [
-    {
-      role: "system",
-      content: systemContent,
-      date: "",
-    },
-    {
-      role: "user",
-      content: userContent,
-      date: "",
-    },
+    // {
+    //   role: "system",
+    //   content: systemContent,
+    //   date: "",
+    // },
+    // {
+    //   role: "user",
+    //   content: userContent,
+    //   date: "",
+    // },
   ],
   helloContent,
   hideSettingBtn: true,

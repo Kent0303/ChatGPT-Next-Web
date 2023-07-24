@@ -128,7 +128,8 @@ export function getCSSVar(varName: string) {
 export function getEnv() {
   if (typeof navigator !== "undefined") {
     const staffAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
-    const coachAppReg = /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2}).+Staff/i;
+    const coachAppReg =
+      /FitnessTrainerAssistant\/(\d+(?:\.\d+){0,2})(?!.+Staff)/i;
 
     const isStaff = staffAppReg.test(navigator.userAgent);
     const isCoach = coachAppReg.test(navigator.userAgent);
